@@ -1,0 +1,44 @@
+---
+- name: Deploy SpringBoot Application
+  hosts: all
+  remote_user: root
+  tasks:
+  - name: source rm
+    ansible.builtin.shell:
+     cmd: rm -rf /root/sampleapp
+
+  - name: Clone Sources From Git
+    git: 
+     repo: http://gitlab.tmaxcloud.co.kr/hc-admin/sampleapp.git
+     dest: ~/sampleapp
+     force: yes 
+     clone: yes 
+ 
+  - name: Source compile
+    ansible.builtin.shell:
+     cmd: /root/maven/apache-maven-3.6.3/bin/mvn clean install
+     chdir: /root/sampleapp
+ 
+  - name: sampleApp service add
+    copy:
+     dest: "/etc/systemd/system/sampleApp.service"
+     content: |
+      [Unit]
+      Description=Java Application Service
+      After=network.target
+      
+      [Service]
+      ExecStart=/bin/bash -c "exec java -Dspring.profiles.active=DEV1 -jar /root/sampleapp/target/test-0.0.1-SNAPSHOT.jar"
+      
+      User=root
+      Group=root
+      
+      [Install]
+      WantedBy=multi-user.target
+  
+  - name: enable sampleApp startup
+    systemd:
+     name: sampleApp
+     enabled: yes
+     state: restarted
+    become: true

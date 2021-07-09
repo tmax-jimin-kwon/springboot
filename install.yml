@@ -1,0 +1,92 @@
+---
+- name: Install SpringBoot
+  hosts: all
+  remote_user: root
+  
+  tasks:
+  - name: Install wget Packages
+    yum:
+      name:
+        - wget
+      state: present
+      
+  - name: Install JAVA Packages
+    yum:
+      name:
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+      state: present
+ 
+  - name: Install git Packages
+    yum:
+      name:
+        - git
+      state: present
+
+  - name: Add JAVA_HOME
+    lineinfile:
+      path: ~/.bash_profile
+      line: JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.242.b08-4.el8.x86_64
+      state: present
+      
+  - name: Add CLASSPATH
+    lineinfile:
+      path: ~/.bash_profile
+      line: CLASSPATH=$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar
+      state: present
+      
+  - name: Add JAVA PATH
+    lineinfile:
+      path: ~/.bash_profile
+      insertafter: 'PATH=$PATH'
+      line: 'PATH=$PATH:$JAVA_HOME/bin'
+      state: present
+
+  - name: Export JAVA profile
+    lineinfile:
+      path: ~/.bash_profile
+      line: export JAVA_HOME CLASSPATH PATH
+      state: present
+  
+  - name: Create Maven directory
+    file:
+      path: ~/maven
+      state: directory
+
+  - name: Maven Download
+    ansible.builtin.unarchive:
+      src: http://apache.tt.co.kr/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+      dest: ~/maven
+      remote_src: yes
+
+  - name: Add MAVEN_HOME
+    lineinfile:
+      path: ~/.bash_profile
+      line: MAVEN_HOME=/root/maven/apache-maven-3.6.3
+      state: present
+
+  - name: Add Maven PATH
+    lineinfile:
+      path: ~/.bash_profile
+      insertafter: 'PATH=$PATH'
+      line: 'PATH=$PATH:$MAVEN_HOME/bin'
+      state: present
+      
+  - name: Export Maven profile
+    lineinfile:
+      path: ~/.bash_profile
+      line: export MAVEN_HOME PATH
+      state: present
+
+  - name: Install Docker
+    yum:
+      name:
+       - yum-utils
+       - device-mapper-persistent-data
+       - lvm2
+       - python3
+      state: present
+
+  - name: Source bash profile
+    ansible.builtin.shell:
+      cmd: source ~/.bash_profile
