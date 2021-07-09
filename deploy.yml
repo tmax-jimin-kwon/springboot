@@ -20,6 +20,8 @@
      chdir: /home/ec2-user/sample
  
   - name: sampleApp service add
+    become: yes
+    become_user: root
     copy:
      dest: "/etc/systemd/system/sampleApp.service"
      content: |
@@ -37,6 +39,8 @@
       WantedBy=multi-user.target
   
   - name: enable sampleApp startup
+    become: yes
+    become_user: root
     systemd:
      name: sampleApp
      enabled: yes
