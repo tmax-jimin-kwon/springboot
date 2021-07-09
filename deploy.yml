@@ -1,11 +1,11 @@
 ---
 - name: Deploy SpringBoot Application
   hosts: all
-  remote_user: root
+  remote_user: ec2-user
   tasks:
   - name: source rm
     ansible.builtin.shell:
-     cmd: rm -rf /root/sampleapp
+     cmd: sudo rm -rf /root/sampleapp
 
   - name: Clone Sources From Git
     git: 
