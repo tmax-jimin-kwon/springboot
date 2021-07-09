@@ -5,12 +5,16 @@
   
   tasks:
   - name: Install wget Packages
+    become: yes
+    become_user: root
     yum:
       name:
         - wget
       state: present
       
   - name: Install JAVA Packages
+    become: yes
+    become_user: root
     yum:
       name:
         - java-1.8.0-openjdk
@@ -18,6 +22,8 @@
       state: present
  
   - name: Install git Packages
+    become: yes
+    become_user: root
     yum:
       name:
         - git
@@ -79,6 +85,8 @@
       state: present
 
   - name: Install Docker
+    become: yes
+    become_user: root
     yum:
       name:
        - yum-utils
