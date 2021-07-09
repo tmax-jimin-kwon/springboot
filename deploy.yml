@@ -9,15 +9,15 @@
 
   - name: Clone Sources From Git
     git: 
-     repo: http://gitlab.tmaxcloud.co.kr/hc-admin/sampleapp.git
-     dest: ~/sampleapp
+     repo: https://github.com/tmax-jimin-kwon/sample.git
+     dest: ~/sample
      force: yes 
      clone: yes 
  
   - name: Source compile
     ansible.builtin.shell:
-     cmd: /root/maven/apache-maven-3.6.3/bin/mvn clean install
-     chdir: /root/sampleapp
+     cmd: /home/ec2-user/maven/apache-maven-3.6.3/bin/mvn clean install
+     chdir: /home/ec2-user/sample
  
   - name: sampleApp service add
     copy:
@@ -28,7 +28,7 @@
       After=network.target
       
       [Service]
-      ExecStart=/bin/bash -c "exec java -Dspring.profiles.active=DEV1 -jar /root/sampleapp/target/test-0.0.1-SNAPSHOT.jar"
+      ExecStart=/bin/bash -c "exec java -Dspring.profiles.active=DEV1 -jar /home/ec2-user/sample/target/demo-0.0.1-SNAPSHOT.jar"
       
       User=root
       Group=root
