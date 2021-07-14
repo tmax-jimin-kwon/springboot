@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Install yum-utils using yum
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: Add Docker Repository
+      yum_repository:
+        baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: Install docker-ce
+      yum:
+        name: docker-ce
+        state: present
+
+    - name: Pull springboot image
+      docker_image:
+        name: tmaxcqa/test:sh-cicd-test
+        source: pull
+        
+    - name: Create springboot containers
+      docker_container:
+        name: sh-cicd-test
+        image: tmaxcqa/test:sh-cicd-test
+        exposed_ports:
+          - 5000
+        state: present
