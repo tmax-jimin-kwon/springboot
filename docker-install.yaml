@@ -26,7 +26,7 @@
 #         update_cache: yes
 
     - name: Install docker
-      command: amazon-linux-extras install docker
+      command: amazon-linux-extras install -y docker
         
     - name: Starting and Enabling Docker service
       service:
