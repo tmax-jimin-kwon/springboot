@@ -35,7 +35,7 @@
         enabled: yes
 
     - name: Create springboot containers
-      command: docker run -dit -p5000:5000 --name sh-cicd-test tmaxcqa/test:sh-cicd-test
+      command: docker run -dit -p8080:8080 --name sh-cicd-test tmaxcqa/test:sh-cicd-test
 
 #     - name: Pull springboot image
 #       docker_image:
