@@ -28,15 +28,18 @@
         state: started
         enabled: yes
 
-    - name: Pull springboot image
-      docker_image:
-        name: tmaxcqa/test:sh-cicd-test
-        source: pull
-        
     - name: Create springboot containers
-      docker_container:
-        name: sh-cicd-test
-        image: tmaxcqa/test:sh-cicd-test
-        exposed_ports:
-          - 5000
-        state: present
+      command: docker run -dit -p5000:5000 --name sh-cicd-test tmaxcqa/test:sh-cicd-test
+
+#     - name: Pull springboot image
+#       docker_image:
+#         name: tmaxcqa/test:sh-cicd-test
+#         source: pull
+        
+#     - name: Create springboot containers
+#       docker_container:
+#         name: sh-cicd-test
+#         image: tmaxcqa/test:sh-cicd-test
+#         exposed_ports:
+#           - 5000
+#         state: present
