@@ -4,9 +4,13 @@
   become_user: root
 
   tasks:
-    - name: Install yum-utils using yum
+    - name: Install required system packages using yum
       yum:
-        name: yum-utils
+        name: 
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+          - python3
         state: present
 
     - name: Add Docker Repository
@@ -17,11 +21,17 @@
       yum:
         name: docker-ce
         state: present
+        
+    - name: Starting and Enabling Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
 
-#     - name: Pull springboot image
-#       docker_image:
-#         name: tmaxcqa/test:sh-cicd-test
-#         source: pull
+    - name: Pull springboot image
+      docker_image:
+        name: tmaxcqa/test:sh-cicd-test
+        source: pull
         
     - name: Create springboot containers
       docker_container:
