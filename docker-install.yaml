@@ -13,11 +13,11 @@
           - python3
         state: present
 
-    - name: Add Docker Repository
-      yum_repository:
-        name: docker
-        description: Docker YUM repo
-        baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    - name: Configuring Docker Repository
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+        mode: 0644
 
     - name: Install docker-ce
       yum:
