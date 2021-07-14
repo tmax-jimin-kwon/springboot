@@ -23,6 +23,7 @@
       yum:
         name: docker-ce
         state: latest
+        update_cache: yes
         
     - name: Starting and Enabling Docker service
       service:
