@@ -61,7 +61,7 @@
 
   - name: Maven Download
     ansible.builtin.unarchive:
-      src: https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz2
+      src: https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
       dest: ~/maven
       remote_src: yes
 
